@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFI Writing Guide Pro - World's Best Lessons For Implementation Assistant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@0.292.0/dist/lucide-react.js"></script>
+    <style>
+        /* Inherit font from body */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* Using existing color variables for consistency with the tool's theme */
+        :root {
+            --primary: #1a237e;
+            --secondary: #00897b;
+            --accent: #d81b60;
+            --success: #43a047;
+            --warning: #fb8c00;
+            --danger: #e53935;
+            --light: #f5f5f5;
+            --dark: #212121;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.2);
+            --transition-base: all 0.3s ease;
+        }
+
+        /* Re-integrating the core styles for the interactive tool from the original file */
+        .header-tool {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-tool::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--gradient-1);
+        }
+        .header-tool h1 {
+            font-size: 2.8em; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; font-weight: 800;
+        }
+        .header-tool .tagline { font-size: 1.2em; color: #666; margin-bottom: 20px; }
+        .standards-badges { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .badge { background: var(--gradient-1); color: white; padding: 8px 20px; border-radius: 25px; font-size: 0.9em; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+        
+        .lfi-info-banner { background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%); color: white; padding: 20px; border-radius: 15px; margin-bottom: 30px; box-shadow: var(--shadow); }
+        .content-grid { display: grid; grid-template-columns: 350px 1fr; gap: 30px; }
+        .sidebar { background: white; border-radius: 20px; padding: 30px; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 120px; /* Adjusted for sticky header */ }
+        .section-nav { list-style: none; }
+        .nav-item { padding: 15px 20px; margin-bottom: 10px; border-radius: 12px; cursor: pointer; transition: var(--transition-base); display: flex; align-items: center; gap: 15px; position: relative; border-left: 4px solid transparent; }
+        .nav-item:hover { background: var(--light); transform: translateX(5px); border-left-color: var(--secondary); }
+        .nav-item.active { background: var(--gradient-1); color: white; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); border-left-color: transparent; }
+        .nav-item.completed::after { content: '✓'; position: absolute; right: 15px; background: var(--success); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; }
+        .nav-icon { font-size: 1.5em; width: 30px; text-align: center; }
+        .quality-score { margin-top: 30px; padding: 20px; background: var(--gradient-2); border-radius: 15px; color: white; text-align: center; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: white; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.5em; font-weight: bold; margin: 0 auto 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); transition: background 0.5s ease; }
+        .editor-container { background: white; border-radius: 20px; padding: 40px; box-shadow: var(--shadow); min-height: 600px; }
+        .section-content { display: none; }
+        .section-content.active { display: block; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid var(--light); }
+        .section-header h2 { font-size: 2em; color: var(--primary); display: flex; align-items: center; gap: 15px; }
+        .writing-area { margin-bottom: 30px; }
+        .field-label { font-size: 1.1em; font-weight: 600; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .required-indicator { color: var(--danger); font-size: 1.2em; }
+        .smart-textarea { width: 100%; min-height: 180px; padding: 20px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1.05em; font-family: inherit; line-height: 1.8; resize: vertical; transition: var(--transition-base); }
+        .smart-textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 4px rgba(0, 137, 123, 0.1); }
+        .textarea-feedback { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .feedback-item { background: var(--light); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px; transition: var(--transition-base); }
+        .feedback-item.good { background: #e8f5e9; border-left: 4px solid var(--success); }
+        .feedback-item.warning { background: #fff3e0; border-left: 4px solid var(--warning); }
+        .feedback-item.error { background: #ffebee; border-left: 4px solid var(--danger); }
+        .feedback-icon { font-size: 1.5em; }
+        .feedback-text { flex: 1; }
+        .feedback-label { font-size: 0.85em; color: #666; display: block; }
+        .feedback-value { font-size: 1.1em; font-weight: 600; color: var(--dark); }
+        .example-card { background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-left: 5px solid var(--secondary); padding: 25px; border-radius: 12px; margin: 25px 0; position: relative; }
+        .example-card::before { content: '💡'; position: absolute; top: -15px; left: 20px; background: white; padding: 5px 15px; border-radius: 20px; font-size: 1.5em; box-shadow: var(--shadow); }
+        .example-card h4 { color: var(--primary); margin-bottom: 15px; margin-top: 10px; font-size: 1.2em; }
+        .example-text { background: white; padding: 20px; border-radius: 8px; line-height: 1.8; font-style: italic; color: #555; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 25px 0; }
+        .tip-card { background: white; padding: 20px; border-radius: 12px; border: 2px solid var(--light); transition: var(--transition-base); cursor: pointer; }
+        .tip-card:hover { border-color: var(--secondary); transform: translateY(-5px); box-shadow: var(--shadow); }
+        .tip-icon { font-size: 2em; margin-bottom: 10px; }
+        .tip-title { font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+        .tip-description { font-size: 0.95em; color: #666; line-height: 1.6; }
+        .ai-suggestions { background: linear-gradient(135deg, #fff9c4 0%, #f0f4c3 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 5px solid var(--warning); }
+        .ai-suggestions h4 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .suggestion-list { list-style: none; }
+        .suggestion-item { padding: 12px; background: white; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px; }
+        .suggestion-item:hover { background: var(--secondary); color: white; transform: translateX(5px); }
+        .progress-bar-container { background: var(--light); height: 8px; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .progress-bar { height: 100%; background: var(--gradient-1); width: 0%; transition: width 0.5s ease; position: relative; }
+        .button-group { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .btn { padding: 14px 30px; border: none; border-radius: 10px; font-size: 1.05em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background: var(--primary); color: white; }
+        .btn-success { background: var(--gradient-2); color: white; box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3); }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4); }
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
+        .template-card { background: white; border: 3px solid var(--light); border-radius: 15px; padding: 25px; cursor: pointer; transition: var(--transition-base); position: relative; overflow: hidden; }
+        .template-card:hover { border-color: var(--secondary); transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .template-card.selected { border-color: var(--secondary); background: linear-gradient(135deg, rgba(0, 137, 123, 0.05) 0%, rgba(0, 137, 123, 0.1) 100%); }
+        .template-card.selected::after { content: '✓ Selected'; position: absolute; top: 15px; right: 15px; background: var(--success); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+        .template-icon { font-size: 3em; margin-bottom: 15px; }
+        .template-name { font-size: 1.3em; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .template-description { color: #666; line-height: 1.6; font-size: 0.95em; }
+        .template-standards { margin-top: 15px; padding-top: 15px; border-top: 2px solid var(--light); font-size: 0.85em; color: var(--secondary); font-weight: 600; }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .loading-overlay.active { display: flex; }
+        .loader { width: 60px; height: 60px; border: 5px solid var(--light); border-top: 5px solid var(--secondary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Responsive adjustments for the grid */
+        @media (max-width: 1024px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+        }
+
+        /* Accordion styles for FAQ */
+        .faq-item details > summary {
+            list-style: none; /* Hide default marker */
+        }
+        .faq-item details > summary::-webkit-details-marker {
+            display: none; /* Hide default marker for Chrome */
+        }
+        .faq-item details[open] summary .plus-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Animations for new LFI Intro section */
+        @keyframes fade-in-down {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-left {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fade-in-right {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-down { animation: fade-in-down 0.6s ease-out forwards; }
+        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+        .animate-fade-in-left { animation: fade-in-left 0.8s ease-out forwards; }
+        .animate-fade-in-right { animation: fade-in-right 0.8s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-4 lg:px-6 py-4">
+            <div class="flex flex-wrap justify-between items-center">
+                <a href="#" class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent" style="background-image: var(--gradient-1);">🎯</span>
+                    <span class="text-xl font-extrabold text-gray-800 self-center whitespace-nowrap">LFI Writing Guide Pro</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="#tool" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">The Tool</a>
+                    <a href="#features" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Features</a>
+                    <a href="#faq" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">FAQ</a>
+                    <a href="about.html" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">About Us</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Contact</a>
+                </div>
+                <a href="#tool" class="hidden lg:inline-block px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-transform" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4 space-y-2">
+                <a href="#tool" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">The Tool</a>
+                <a href="#features" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Features</a>
+                <a href="#faq" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">FAQ</a>
+                <a href="about.html" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">About Us</a>
+                <a href="contact.html" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Contact</a>
+                <a href="#tool" class="block mt-2 w-full text-center px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 lg:py-16">
+
+        <!-- LFI Writing Tool Section -->
+        <section id="tool" class="w-full">
+            <div class="main-container max-w-none p-0">
+                <div class="header-tool">
+                    <h1>🎯 LFI Writing Guide Pro</h1>
+                    <p class="tagline">World's Best Lessons For Implementation Assistant Tool</p>
+                    <p class="text-gray-500 text-base">Transform Your Root Cause Analysis into Actionable Learning Documents</p>
+                    <div class="standards-badges">
+                        <span class="badge">✓ ISO 9001:2015 Compliant</span>
+                        <span class="badge">✓ APQP Standard</span>
+                        <span class="badge">✓ Six Sigma Compatible</span>
+                        <span class="badge">✓ Global Best Practices</span>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <aside class="sidebar">
+                        <h3 class="text-xl font-bold mb-5" style="color: var(--primary);">LFI Sections</h3>
+                        <ul class="section-nav">
+                             <li class="nav-item active" data-section="template"><span class="nav-icon">📋</span><span>1. Select Template</span></li>
+                             <li class="nav-item" data-section="problem"><span class="nav-icon">❗</span><span>2. Problem Context</span></li>
+                             <li class="nav-item" data-section="rootcause"><span class="nav-icon">🔍</span><span>3. Root Cause</span></li>
+                             <li class="nav-item" data-section="lessons"><span class="nav-icon">💡</span><span>4. Lessons Learned</span></li>
+                             <li class="nav-item" data-section="actions"><span class="nav-icon">⚡</span><span>5. Implementation</span></li>
+                             <li class="nav-item" data-section="prevention"><span class="nav-icon">🛡️</span><span>6. Prevention</span></li>
+                             <li class="nav-item" data-section="sharing"><span class="nav-icon">🌍</span><span>7. Knowledge Sharing</span></li>
+                             <li class="nav-item" data-section="preview"><span class="nav-icon">📄</span><span>8. Review & Export</span></li>
+                        </ul>
+                        <div class="quality-score">
+                            <h3>LFI Quality Score</h3>
+                            <div class="score-circle" id="qualityScore">0%</div>
+                            <p class="text-sm">Complete all sections for optimal quality</p>
+                        </div>
+                    </aside>
+                    <main class="editor-container">
+                        <!-- Section 1: Template Selection -->
+                        <div class="section-content active" id="section-template">
+                            <div class="section-header"><h2>📋 Select Your LFI Template</h2></div>
+                            <p class="text-lg text-gray-600 mb-8">Choose the template that best matches your industry and organizational standards. All templates follow international best practices.</p>
+                            <div class="template-grid">
+                                <div class="template-card" data-template="iso9001"><div class="template-icon">🏭</div><div class="template-name">ISO 9001 CAPA</div><div class="template-description">Perfect for manufacturing and quality management systems. Emphasizes corrective and preventive actions.</div><div class="template-standards">ISO 9001:2015 | ISO/TS 16949</div></div>
+                                <div class="template-card" data-template="apqp"><div class="template-icon">🚗</div><div class="template-name">APQP/8D</div><div class="template-description">Automotive industry standard. Team-based problem solving with systematic root cause elimination.</div><div class="template-standards">APQP | 8D Methodology | AIAG</div></div>
+                                <div class="template-card" data-template="sixsigma"><div class="template-icon">📊</div><div class="template-name">Six Sigma DMAIC</div><div class="template-description">Data-driven approach focusing on measurable improvements. Ideal for process optimization.</div><div class="template-standards">Six Sigma | DMAIC | Lean</div></div>
+                                <div class="template-card" data-template="a3"><div class="template-icon">📑</div><div class="template-name">A3 Thinking</div><div class="template-description">Toyota Production System approach. Concise, visual problem-solving focusing on continuous improvement.</div><div class="template-standards">TPS | Lean Manufacturing | Kaizen</div></div>
+                            </div>
+                            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-6 rounded-r-lg" id="templateAlert" style="display: none;"><p>⚠️ Please select a template to continue.</p></div>
+                            <div class="button-group"><button class="btn btn-primary" onclick="nextSection()">Next: Problem Context →</button></div>
+                        </div>
+                        <!-- Section 2: Problem Context -->
+                        <div class="section-content" id="section-problem">
+                            <div class="section-header"><h2>❗ Problem Context & Background</h2></div>
+                            <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Problem Title</label>
+                                <input type="text" id="problemTitle" class="smart-textarea" style="min-height: 60px;" placeholder="Brief, descriptive title (e.g., 'High Defect Rate in Welding Process - Line 3')">
+                                <div class="textarea-feedback"><div class="feedback-item" id="titleFeedback"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Length</span><span class="feedback-value" id="titleLength">0 / 100 chars</span></div></div></div>
+                            </div>
+                            <div class="example-card">
+                                <h4>✨ Example of Good Problem Title</h4>
+                                <div class="example-text">"Increased Customer Returns (15%) Due to Paint Adhesion Failure - Q3 2024 Production Batch"</div>
+                            </div>
+                            <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Problem Statement & Impact</label>
+                                <textarea id="problemStatement" class="smart-textarea" placeholder="Describe WHAT happened, WHEN, WHERE, WHO was affected, and the IMPACT. Be specific with metrics. Example: 'During week 42 (Oct 15-21, 2024), Production Line 3 experienced a 3.2% defect rate... resulting in $12,000 in scrap costs...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="statementLength"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value" id="wordCount">0 / 150-300 words</span></div></div>
+                                    <div class="feedback-item" id="statementClarity"><span class="feedback-icon">✓</span><div class="feedback-text"><span class="feedback-label">Clarity Score</span><span class="feedback-value" id="clarityScore">Not assessed</span></div></div>
+                                    <div class="feedback-item" id="statementData"><span class="feedback-icon">📊</span><div class="feedback-text"><span class="feedback-label">Data Points</span><span class="feedback-value" id="dataPoints">0 detected</span></div></div>
+                                </div>
+                            </div>
+                            <div class="tips-grid">
+                                <div class="tip-card"><div class="tip-icon">📍</div><div class="tip-title">Be Specific</div><div class="tip-description">Include exact dates, locations, quantities, and metrics. Avoid vague terms like "recently" or "many".</div></div>
+                                <div class="tip-card"><div class="tip-icon">📈</div><div class="tip-title">Quantify Impact</div><div class="tip-description">Use numbers: costs, time lost, defect rates, customer impact. Makes the problem tangible.</div></div>
+                                <div class="tip-card"><div class="tip-icon">🎯</div><div class="tip-title">Stay Objective</div><div class="tip-description">Describe facts, not opinions or assumptions. Save root cause discussion for the next section.</div></div>
+                            </div>
+                            <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Root Cause →</button></div>
+                        </div>
+                        <!-- Section 3: Root Cause -->
+                        <div class="section-content" id="section-rootcause">
+                            <div class="section-header"><h2>🔍 Root Cause Analysis Summary</h2></div>
+                            <div class="writing-area">
+                                <label class="field-label">RCA Method Used</label>
+                                <select id="rcaMethod" class="smart-textarea" style="min-height: 60px; padding-top: 15px; padding-bottom: 15px;">
+                                    <option value="">Select the method you used...</option><option value="5Why">5 Why Analysis</option><option value="Fishbone">Fishbone Diagram (Ishikawa)</option><option value="FTA">Fault Tree Analysis</option><option value="Pareto">Pareto Analysis</option><option value="FMEA">Failure Mode & Effects Analysis (FMEA)</option><option value="8D">8D Problem Solving</option><option value="Other">Other Method</option>
+                                </select>
+                            </div>
+                            <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Root Cause Identified</label>
+                                <textarea id="rootCause" class="smart-textarea" placeholder="Describe the fundamental reason WHY the problem occurred. Example: 'Inadequate welding temperature control due to malfunctioning thermocouple sensor (PN: TC-4421)... Root cause: Maintenance procedure did not include sensor calibration verification...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="rcLength"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value" id="rcWordCount">0 / 100-250 words</span></div></div>
+                                    <div class="feedback-item" id="rcDepth"><span class="feedback-icon">🎯</span><div class="feedback-text"><span class="feedback-label">Root Depth</span><span class="feedback-value" id="rootDepth">Surface level</span></div></div>
+                                    <div class="feedback-item" id="rcActionable"><span class="feedback-icon">⚡</span><div class="feedback-text"><span class="feedback-label">Actionability</span><span class="feedback-value" id="actionable">Needs improvement</span></div></div>
+                                </div>
+                            </div>
+                            <div class="example-card">
+                                <h4>✨ Example: Good vs. Poor Root Cause</h4>
+                                <div class="example-text">
+                                    <strong style="color: var(--danger);">❌ Poor:</strong> "Equipment malfunction caused the problem."<br><br>
+                                    <strong style="color: var(--success);">✅ Good:</strong> "Thermocouple sensor failure (PN: TC-4421) due to missing calibration verification step in maintenance SOP-M-442. The procedure update from Jan 2024 removed the calibration check to reduce maintenance time, creating a gap that allowed uncalibrated sensors to be installed. This systemic process gap is the root cause."
+                                </div>
+                            </div>
+                            <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Lessons Learned →</button></div>
+                        </div>
+                        <!-- Section 4: Lessons Learned -->
+                        <div class="section-content" id="section-lessons">
+                            <div class="section-header"><h2>💡 Lessons Learned</h2></div>
+                             <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Key Lesson #1 (Primary)</label>
+                                <textarea id="lesson1" class="smart-textarea" min-height="120px" placeholder="What is the main insight? Example: 'Process change procedures must include impact assessment on quality control steps...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="lesson1WordCountFeedback"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 50-150 words</span></div></div>
+                                    <div class="feedback-item" id="lesson1Feedback"><span class="feedback-icon">💡</span><div class="feedback-text"><span class="feedback-label">Transferability</span><span class="feedback-value" id="lesson1Transfer">Low</span></div></div>
+                                </div>
+                            </div>
+                            <div class="writing-area">
+                                <label class="field-label">Key Lesson #2 (Secondary)</label>
+                                <textarea id="lesson2" class="smart-textarea" min-height="120px" placeholder="What is another important insight?"></textarea>
+                                <div class="textarea-feedback"><div class="feedback-item" id="lesson2WordCountFeedback"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 50-150 words</span></div></div></div>
+                            </div>
+                             <div class="writing-area">
+                                <label class="field-label">Key Lesson #3 (Additional)</label>
+                                <textarea id="lesson3" class="smart-textarea" min-height="120px" placeholder="Any additional insights worth sharing?"></textarea>
+                                <div class="textarea-feedback"><div class="feedback-item" id="lesson3WordCountFeedback"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 50-150 words</span></div></div></div>
+                            </div>
+                            <div class="example-card">
+                                <h4>✨ Example: Weak vs. Strong Lesson</h4>
+                                <div class="example-text">
+                                    <strong style="color: var(--danger);">❌ Weak:</strong> "Technicians should be more careful during maintenance." (Blames individual, not transferable)<br><br>
+                                    <strong style="color: var(--success);">✅ Strong:</strong> "Any modification to a maintenance procedure, even for efficiency, must trigger a mandatory review by Quality Assurance to ensure critical control points are not inadvertently removed or weakened. This systemic check prevents efficiency goals from compromising quality." (Focuses on process, is transferable)
+                                </div>
+                            </div>
+                            <div class="tips-grid">
+                                <div class="tip-card"><div class="tip-icon">🌍</div><div class="tip-title">Make it Transferable</div><div class="tip-description">Good lessons can be applied to other areas, processes, or products. Think beyond this specific incident.</div></div>
+                                <div class="tip-card"><div class="tip-icon">🎓</div><div class="tip-title">Focus on Systems</div><div class="tip-description">Address process gaps, not individual mistakes. What system allowed this to happen?</div></div>
+                                <div class="tip-card"><div class="tip-icon">🔄</div><div class="tip-title">Actionable Insights</div><div class="tip-description">Each lesson should suggest what should be done differently in the future.</div></div>
+                            </div>
+                            <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Implementation →</button></div>
+                        </div>
+                        <!-- Section 5: Implementation Actions -->
+                        <div class="section-content" id="section-actions">
+                            <div class="section-header"><h2>⚡ Implementation Actions</h2></div>
+                             <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Immediate Action</label>
+                                <textarea id="immediateAction" class="smart-textarea" min-height="120px" placeholder="What needs to happen NOW? (Containment) Example: '1. Calibrate all thermocouples... 2. Inspect all welds...'"></textarea>
+                                <div class="textarea-feedback"><div class="feedback-item" id="immediateActionFeedback"><span class="feedback-icon">🚦</span><div class="feedback-text"><span class="feedback-label">SMART Score</span><span class="feedback-value">0/4</span></div></div></div>
+                            </div>
+                            <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Corrective Action</label>
+                                <textarea id="correctiveAction" class="smart-textarea" min-height="120px" placeholder="How will you eliminate the root cause? (Fixing the source) Example: 'Update Maintenance SOP-M-442 to reinstate mandatory calibration...'"></textarea>
+                                <div class="textarea-feedback"><div class="feedback-item" id="correctiveActionFeedback"><span class="feedback-icon">🎯</span><div class="feedback-text"><span class="feedback-label">SMART Score</span><span class="feedback-value">0/4</span></div></div></div>
+                            </div>
+                             <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Systemic Improvements</label>
+                                <textarea id="systemicAction" class="smart-textarea" min-height="120px" placeholder="What systemic changes will prevent similar issues? (Improving the system) Example: 'Implement Process Change Review Board...'"></textarea>
+                                <div class="textarea-feedback"><div class="feedback-item" id="systemicActionFeedback"><span class="feedback-icon">🏛️</span><div class="feedback-text"><span class="feedback-label">SMART Score</span><span class="feedback-value">0/4</span></div></div></div>
+                            </div>
+                             <div class="example-card">
+                                <h4>✨ Example: Non-SMART vs. SMART Action</h4>
+                                <div class="example-text">
+                                    <strong style="color: var(--danger);">❌ Non-SMART:</strong> "Fix the maintenance procedure."<br><br>
+                                    <strong style="color: var(--success);">✅ SMART:</strong> "Update Maintenance SOP-M-442 to include mandatory calibration verification (Section 4.2). Owner: J. Smith (Maintenance Mgr). Due: 11/15/2024. Success measured by 100% audit compliance."
+                                </div>
+                            </div>
+                            <div class="ai-suggestions">
+                                <h4>🤖 Action Quality Check (SMART)</h4>
+                                <ul class="suggestion-list">
+                                    <li class="suggestion-item"><strong>S</strong>pecific: Is the action clear and unambiguous?</li>
+                                    <li class="suggestion-item"><strong>M</strong>easurable: Can you quantify the result?</li>
+                                    <li class="suggestion-item"><strong>A</strong>ssignable: Does it have a clear owner (person/role)?</li>
+                                    <li class="suggestion-item"><strong>T</strong>ime-bound: Is there a target completion date?</li>
+                                </ul>
+                            </div>
+                            <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Prevention →</button></div>
+                        </div>
+                         <!-- Section 6: Prevention -->
+                        <div class="section-content" id="section-prevention">
+                             <div class="section-header"><h2>🛡️ Prevention & Validation</h2></div>
+                             <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>How will you verify effectiveness?</label>
+                                <textarea id="validation" class="smart-textarea" min-height="120px" placeholder="Define specific metrics and monitoring methods. Example: '1. Zero sensor-related defects for 90 days... 2. 100% compliance in maintenance calibration checks...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="validationWordCount"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 75-150 words</span></div></div>
+                                    <div class="feedback-item" id="validationFeedback"><span class="feedback-icon">📈</span><div class="feedback-text"><span class="feedback-label">Metrics Check</span><span class="feedback-value">0 detected</span></div></div>
+                                </div>
+                            </div>
+                            <div class="writing-area">
+                                <label class="field-label"><span class="required-indicator">*</span>Horizontal Deployment Plan</label>
+                                <textarea id="horizontal" class="smart-textarea" min-height="120px" placeholder="Where else should these lessons be applied? Example: '1. All maintenance procedures (45 SOPs)... 2. Other critical measurement systems...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="horizontalWordCount"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 75-150 words</span></div></div>
+                                    <div class="feedback-item" id="horizontalFeedback"><span class="feedback-icon">🌐</span><div class="feedback-text"><span class="feedback-label">Scope Check</span><span class="feedback-value">Not broad</span></div></div>
+                                </div>
+                            </div>
+                             <div class="tips-grid">
+                                <div class="tip-card"><div class="tip-icon">📊</div><div class="tip-title">Measure Everything</div><div class="tip-description">Use both leading indicators (process compliance) and lagging indicators (results/outcomes).</div></div>
+                                <div class="tip-card"><div class="tip-icon">🔄</div><div class="tip-title">Follow-up Timeline</div><div class="tip-description">Set specific review dates: 30-day check, 90-day validation, 6-month confirmation.</div></div>
+                                <div class="tip-card"><div class="tip-icon">🌐</div><div class="tip-title">Think Broadly</div><div class="tip-description">Consider all similar processes, equipment, or situations where lessons apply.</div></div>
+                            </div>
+                             <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Knowledge Sharing →</button></div>
+                        </div>
+                        <!-- Section 7: Knowledge Sharing -->
+                        <div class="section-content" id="section-sharing">
+                            <div class="section-header"><h2>🌍 Global Knowledge Sharing</h2></div>
+                            <div class="writing-area">
+                                <label class="field-label">Target Audience for this LFI</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="production"> Production</label>
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="quality"> Quality</label>
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="maintenance"> Maintenance</label>
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="engineering"> Engineering</label>
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="management"> Management</label>
+                                    <label class="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50"><input type="checkbox" class="audience-check h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="global"> Global</label>
+                                </div>
+                            </div>
+                             <div class="writing-area">
+                                <label class="field-label">Distribution & Training Plan</label>
+                                <textarea id="distribution" class="smart-textarea" min-height="120px" placeholder="How will you share this LFI? Example: '1. Present at Weekly Production Meeting... 2. Add to Quality Knowledge Base...'"></textarea>
+                                <div class="textarea-feedback">
+                                    <div class="feedback-item" id="distributionWordCount"><span class="feedback-icon">📏</span><div class="feedback-text"><span class="feedback-label">Word Count</span><span class="feedback-value">0 / 75-150 words</span></div></div>
+                                    <div class="feedback-item" id="distributionFeedback"><span class="feedback-icon">📢</span><div class="feedback-text"><span class="feedback-label">Channel Check</span><span class="feedback-value">0 channels</span></div></div>
+                                </div>
+                            </div>
+                             <div class="writing-area">
+                                <label class="field-label">Key Searchable Tags</label>
+                                <input type="text" id="tags" class="smart-textarea" style="min-height: 60px;" placeholder="e.g., welding, temperature control, sensor calibration, maintenance procedure">
+                                <div class="textarea-feedback"><div class="feedback-item" id="tagsFeedback"><span class="feedback-icon">🏷️</span><div class="feedback-text"><span class="feedback-label">Tag Count</span><span class="feedback-value">0 tags</span></div></div></div>
+                            </div>
+                             <div class="tips-grid">
+                                <div class="tip-card"><div class="tip-icon">📡</div><div class="tip-title">Use Multiple Channels</div><div class="tip-description">Don't rely on just one method. Combine emails, meetings, and database entries for maximum reach.</div></div>
+                                <div class="tip-card"><div class="tip-icon">🖼️</div><div class="tip-title">Make it Visual</div><div class="tip-description">Include photos or diagrams of the failure and the fix. A one-page visual summary is highly effective.</div></div>
+                                <div class="tip-card"><div class="tip-icon">🎯</div><div class="tip-title">Target the Audience</div><div class="tip-description">Tailor the message for different groups. What does a manager need to know vs. an operator?</div></div>
+                            </div>
+                            <div class="button-group"><button class="btn btn-secondary" onclick="prevSection()">← Previous</button><button class="btn btn-primary" onclick="nextSection()">Next: Review & Export →</button></div>
+                        </div>
+                        <!-- Section 8: Preview & Export -->
+                        <div class="section-content" id="section-preview">
+                            <div class="section-header"><h2>📄 Review & Export Your LFI</h2></div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg" id="completionAlert" style="display: none;"><p>🎉 <strong>Congratulations!</strong> Your LFI document is complete and ready for export!</p></div>
+                            <div class="bg-gray-100 p-6 rounded-lg my-6">
+                                <h3 class="font-bold text-lg mb-4" style="color: var(--primary);">Document Completeness Check</h3>
+                                <div class="progress-bar-container"><div class="progress-bar" id="completionBar"></div></div>
+                                <div id="missingFields" class="mt-4 text-gray-600"></div>
+                            </div>
+                            <div class="bg-white border-2 border-gray-200 rounded-lg p-8 my-6" id="previewContainer">
+                                <h3 class="text-center font-bold text-xl" style="color: var(--primary);">LESSONS FOR IMPLEMENTATION</h3>
+                                <p class="text-center text-gray-500 mb-8" id="previewTemplate"></p>
+                                <div id="previewContent"></div>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-secondary" onclick="prevSection()">← Previous</button>
+                                <button class="btn btn-success" onclick="exportPDF()">📄 Export as PDF</button>
+                                <button class="btn btn-success" onclick="exportWord()">📝 Export as Word</button>
+                                <button class="btn btn-primary" onclick="copyLFI()">📋 Copy to Clipboard</button>
+                                <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informational Sections -->
+        <div class="space-y-24 mt-24">
+            
+            <!-- Features -->
+            <section id="features" class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Guided, Intelligent & Compliant</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12">Our tool doesn't just give you a blank page. It provides a world-class framework to ensure every LFI is comprehensive, actionable, and ready for global implementation.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="mx-auto w-16 h-16 flex items-center justify-center rounded-full text-white mb-6" style="background-image: var(--gradient-1);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-waypoints"><path d="M12 2L6 22l6-4 6 4V2z"/><path d="M12 18l-6-4"/><path d="M12 18l6-4"/></svg></div>
+                        <h3 class="text-xl font-bold mb-2">Step-by-Step Guidance</h3>
+                        <p class="text-gray-600">Navigate the LFI process with a clear, structured workflow, from problem statement to global knowledge sharing.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="mx-auto w-16 h-16 flex items-center justify-center rounded-full text-white mb-6" style="background-image: var(--gradient-1);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
+                        <h3 class="text-xl font-bold mb-2">Real-Time Quality Score</h3>
+                        <p class="text-gray-600">Instantly assess the quality and completeness of your document with our intelligent scoring system.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="mx-auto w-16 h-16 flex items-center justify-center rounded-full text-white mb-6" style="background-image: var(--gradient-1);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+                        <h3 class="text-xl font-bold mb-2">Industry Standard Templates</h3>
+                        <p class="text-gray-600">Choose from ISO 9001, APQP/8D, Six Sigma, and A3 templates to ensure full compliance with your QMS.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- NEW LFI INTRODUCTION SECTION -->
+            <section id="lfi-introduction" class="py-16">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900 mb-4 animate-fade-in-down">The Power of Learning: An Introduction to LFI</h2>
+                    <p class="text-lg text-gray-600 max-w-4xl mx-auto mb-12 animate-fade-in-up" style="animation-delay: 100ms;">From aviation safety to nuclear power, the structured process of learning from failure has been the single most critical driver of progress and safety. This is the story of Lessons For Implementation (LFI).</p>
+                </div>
+                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center mt-8">
+                    <div class="animate-fade-in-left text-left" style="animation-delay: 200ms;">
+                        <h3 class="text-2xl font-bold mb-4 text-indigo-800">A History Forged in Crisis</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">The concept of LFI wasn't born in a boardroom; it was forged in the crucibles of catastrophic failures. Early aviation pioneers, NASA engineers after the Apollo 1 fire, and the nuclear industry following Chernobyl all developed rigorous systems to ensure mistakes were never repeated. They learned a vital lesson: a failure is only a true tragedy if nothing is learned from it. These systematic reviews became the bedrock of modern quality and safety management, evolving into the LFI process we use today.</p>
+                    </div>
+                    <div class="relative animate-fade-in-right" style="animation-delay: 300ms;">
+                        <div class="absolute inset-0 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full blur-3xl opacity-50"></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="w-full h-auto text-indigo-400 relative"><path d="m9 12 2 2 4-4"/><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
+                    </div>
+                </div>
+                <div class="container mx-auto px-6 mt-16">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Benefit Card -->
+                        <div class="p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-fade-in-up" style="animation-delay: 400ms;">
+                            <h4 class="font-bold text-xl mb-2 text-indigo-700">Exponential Problem Solving</h4>
+                            <p class="text-gray-600">A well-written LFI solves a problem not just once, but potentially thousands of times. By sharing the core lesson globally across an organization or industry, it prevents countless similar failures before they happen, saving immense costs, time, and even lives.</p>
+                        </div>
+                         <!-- Trend Card -->
+                        <div class="p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-fade-in-up" style="animation-delay: 500ms;">
+                            <h4 class="font-bold text-xl mb-2 text-indigo-700">Latest Trends: AI & Data Analytics</h4>
+                            <p class="text-gray-600">Today, LFIs are evolving. Companies are using AI to analyze historical reports, identify hidden trends, and predict future failure modes. Digital knowledge bases make lessons instantly searchable, turning a static document into a dynamic library of organizational wisdom.</p>
+                        </div>
+                         <!-- Impact Card -->
+                        <div class="p-8 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-fade-in-up" style="animation-delay: 600ms;">
+                            <h4 class="font-bold text-xl mb-2 text-indigo-700">Global Impact</h4>
+                            <p class="text-gray-600">From the standardized checklists in every commercial cockpit to the safety protocols in manufacturing plants worldwide, the principles of LFI are everywhere. It's a silent force that has made our world demonstrably safer and more efficient by institutionalizing the process of learning.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-12">Frequently Asked Questions</h2>
+                    <div class="space-y-4">
+                        <div class="faq-item bg-white rounded-lg shadow-sm">
+                            <details class="p-6 cursor-pointer">
+                                <summary class="flex justify-between items-center font-semibold text-lg">
+                                    Why is a "Lessons For Implementation" (LFI) document important?
+                                    <span class="plus-icon text-indigo-500 transform transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 text-gray-600 leading-relaxed">An LFI is critical because it moves beyond simply identifying a root cause to creating a concrete plan for learning and prevention. It ensures that the knowledge gained from an incident is captured, shared, and implemented globally to prevent recurrence, driving continuous improvement and organizational learning.</p>
+                            </details>
+                        </div>
+                        <div class="faq-item bg-white rounded-lg shadow-sm">
+                             <details class="p-6 cursor-pointer">
+                                <summary class="flex justify-between items-center font-semibold text-lg">
+                                    How does this tool help with compliance?
+                                    <span class="plus-icon text-indigo-500 transform transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 text-gray-600 leading-relaxed">The tool is built on the foundations of major international quality standards. By providing templates for ISO 9001 (CAPA), APQP (8D), and others, it ensures that the structure and content of your LFI meet the rigorous documentation requirements of auditors and quality management systems.</p>
+                            </details>
+                        </div>
+                        <div class="faq-item bg-white rounded-lg shadow-sm">
+                             <details class="p-6 cursor-pointer">
+                                <summary class="flex justify-between items-center font-semibold text-lg">
+                                    Can I export my document in different formats?
+                                    <span class="plus-icon text-indigo-500 transform transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 text-gray-600 leading-relaxed">Yes. Once you have completed your LFI, you can export it as a professional PDF, a Microsoft Word (.doc) file for further editing, copy the content to your clipboard for easy sharing, or print it directly.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">LFI Writing Guide Pro</h3>
+                    <p class="text-gray-400">Your assistant for creating world-class, actionable learning documents from root cause analysis.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#tool" class="text-gray-400 hover:text-white">The Tool</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="text-gray-400 hover:text-white">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 LFI Writing Guide Pro. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="text-center">
+            <div class="loader"></div>
+            <p class="mt-5 text-lg font-semibold" style="color: var(--primary);">
+                Generating your professional LFI document...
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // --- MOBILE MENU SCRIPT ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // --- TOOL SCRIPT (WITH ENHANCEMENTS) ---
+        let currentSection = 'template';
+        let selectedTemplate = '';
+        let lfiData = {
+            template: '', problemTitle: '', problemStatement: '', rcaMethod: '', rootCause: '',
+            lessons: [], immediateAction: '', correctiveAction: '', systemicAction: '',
+            validation: '', horizontal: '', distribution: '', tags: '', audience: []
+        };
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        function initializeApp() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.dataset.section;
+                    if (currentSection !== 'preview' && currentSection !== section) {
+                        const currentNavItem = document.querySelector(`.nav-item[data-section="${currentSection}"]`);
+                        if (currentNavItem && isSectionFilled(currentSection)) {
+                            currentNavItem.classList.add('completed');
+                        }
+                    }
+                    switchSection(section);
+                });
+            });
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTemplate = this.dataset.template;
+                    lfiData.template = selectedTemplate;
+                    document.getElementById('templateAlert').style.display = 'none';
+                    updateQualityScore();
+                     if (currentSection === 'template') {
+                        const navItem = document.querySelector(`.nav-item[data-section="template"]`);
+                        if (navItem && !navItem.classList.contains('completed')) navItem.classList.add('completed');
+                    }
+                });
+            });
+            setupRealTimeFeedback();
+        }
+
+        function isSectionFilled(section) {
+            switch(section) {
+                case 'template': return !!lfiData.template;
+                case 'problem': return !!lfiData.problemTitle && !!lfiData.problemStatement;
+                case 'rootcause': return !!lfiData.rootCause;
+                case 'lessons': return lfiData.lessons.some(l => l && l.length > 0);
+                case 'actions': return !!lfiData.immediateAction && !!lfiData.correctiveAction && !!lfiData.systemicAction;
+                case 'prevention': return !!lfiData.validation && !!lfiData.horizontal;
+                case 'sharing': return !!lfiData.distribution || lfiData.audience.length > 0;
+                default: return false;
+            }
+        }
+        
+        // Generic function for word count feedback
+        function setupWordCountFeedback(elementId, feedbackElementId, min, max) {
+            const input = document.getElementById(elementId);
+            if (!input) return;
+
+            input.addEventListener('input', function() {
+                const text = this.value;
+                const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                const feedbackEl = document.getElementById(feedbackElementId);
+                const valueEl = feedbackEl.querySelector('.feedback-value');
+
+                valueEl.textContent = `${words} / ${min}-${max} words`;
+                
+                if (words === 0) {
+                    feedbackEl.className = 'feedback-item';
+                } else if (words < min) {
+                    feedbackEl.className = 'feedback-item error';
+                } else if (words > max) {
+                    feedbackEl.className = 'feedback-item warning';
+                } else {
+                    feedbackEl.className = 'feedback-item good';
+                }
+            });
+        }
+
+
+        function setupRealTimeFeedback() {
+            // Section 2
+            const titleInput = document.getElementById('problemTitle');
+            if (titleInput) {
+                titleInput.addEventListener('input', function() {
+                    const length = this.value.length;
+                    document.getElementById('titleLength').textContent = `${length} / 100 chars`;
+                    const feedback = document.getElementById('titleFeedback');
+                    if (length < 20) feedback.className = 'feedback-item error';
+                    else if (length > 100) feedback.className = 'feedback-item warning';
+                    else feedback.className = 'feedback-item good';
+                    lfiData.problemTitle = this.value;
+                    updateQualityScore();
+                });
+            }
+            const statementInput = document.getElementById('problemStatement');
+            if (statementInput) {
+                statementInput.addEventListener('input', function() {
+                    const text = this.value;
+                    const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                    document.getElementById('wordCount').textContent = `${words} / 150-300 words`;
+                    document.getElementById('statementLength').className = words < 150 ? 'feedback-item error' : words > 300 ? 'feedback-item warning' : 'feedback-item good';
+                    
+                    const dataCount = (text.match(/\d+|%/g) || []).length;
+                    document.getElementById('dataPoints').textContent = `${dataCount} detected`;
+                    document.getElementById('statementData').className = dataCount >= 3 ? 'feedback-item good' : 'feedback-item warning';
+
+                    const clarityChecks = [/what|problem|issue|defect/i, /when|date|week/i, /where|line|area/i, /impact|cost|delay/i];
+                    const clarityScore = clarityChecks.filter(regex => regex.test(text)).length;
+                    const clarityTexts = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+                    document.getElementById('clarityScore').textContent = clarityTexts[clarityScore];
+                    document.getElementById('statementClarity').className = clarityScore >= 3 ? 'feedback-item good' : 'feedback-item warning';
+                    
+                    lfiData.problemStatement = this.value;
+                    updateQualityScore();
+                });
+            }
+
+            // Section 3
+            const rcInput = document.getElementById('rootCause');
+            if (rcInput) {
+                rcInput.addEventListener('input', function() {
+                    const text = this.value;
+                    const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                    document.getElementById('rcWordCount').textContent = `${words} / 100-250 words`;
+                    document.getElementById('rcLength').className = words < 100 ? 'feedback-item error' : words > 250 ? 'feedback-item warning' : 'feedback-item good';
+
+                    const whyCount = (text.match(/because|due to|caused by|systemic/gi) || []).length;
+                    const depthFeedback = document.getElementById('rcDepth');
+                    if (whyCount >= 2) { document.getElementById('rootDepth').textContent = 'Deep root cause'; depthFeedback.className = 'feedback-item good'; } 
+                    else if (whyCount >= 1) { document.getElementById('rootDepth').textContent = 'Moderate depth'; depthFeedback.className = 'feedback-item warning'; }
+                    else { document.getElementById('rootDepth').textContent = 'Surface level'; depthFeedback.className = 'feedback-item error'; }
+
+                    const hasSpecifics = /procedure|process|sop|standard|training/i.test(text);
+                    document.getElementById('actionable').textContent = hasSpecifics ? 'Highly actionable' : 'Needs more detail';
+                    document.getElementById('rcActionable').className = hasSpecifics ? 'feedback-item good' : 'feedback-item warning';
+                    
+                    lfiData.rootCause = this.value;
+                    updateQualityScore();
+                });
+            }
+            
+            // Section 4
+            setupWordCountFeedback('lesson1', 'lesson1WordCountFeedback', 50, 150);
+            setupWordCountFeedback('lesson2', 'lesson2WordCountFeedback', 50, 150);
+            setupWordCountFeedback('lesson3', 'lesson3WordCountFeedback', 50, 150);
+
+            // Section 6
+            setupWordCountFeedback('validation', 'validationWordCount', 75, 150);
+            setupWordCountFeedback('horizontal', 'horizontalWordCount', 75, 150);
+            
+            // Section 7
+            setupWordCountFeedback('distribution', 'distributionWordCount', 75, 150);
+             ['rcaMethod'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    const event = input.tagName === 'SELECT' ? 'change' : 'input';
+                    input.addEventListener(event, function() { lfiData[id] = this.value; updateQualityScore(); });
+                }
+            });
+
+
+            ['lesson1', 'lesson2', 'lesson3'].forEach((id, index) => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        if (!lfiData.lessons) lfiData.lessons = [];
+                        lfiData.lessons[index] = this.value;
+                        updateQualityScore();
+                        if (id === 'lesson1') {
+                            const feedback = document.getElementById('lesson1Feedback');
+                            const transferable = /must|should|procedure|process|all|any/i.test(this.value);
+                            const words = this.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+                             if (transferable && words >= 25) { document.getElementById('lesson1Transfer').textContent = 'Highly transferable'; feedback.className = 'feedback-item good';}
+                             else if (words >= 15) { document.getElementById('lesson1Transfer').textContent = 'Moderate'; feedback.className = 'feedback-item warning';}
+                             else { document.getElementById('lesson1Transfer').textContent = 'Needs improvement'; feedback.className = 'feedback-item error';}
+                        }
+                    });
+                }
+            });
+
+            // Section 5
+            const smartKeywords = { S: /update|implement|train|calibrate|add|remove|inspect/i, M: /\d+|%|all/i, A: /owner|team|manager|engineer|lead/i, T: /due|by|date|\d{1,2}\/\d{1,2}|\w{3,9}\s\d{1,2}/i };
+            ['immediateAction', 'correctiveAction', 'systemicAction'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        lfiData[id] = this.value;
+                        const score = Object.values(smartKeywords).filter(regex => regex.test(this.value)).length;
+                        const feedbackEl = document.getElementById(`${id}Feedback`);
+                        feedbackEl.querySelector('.feedback-value').textContent = `${score}/4`;
+                        feedbackEl.className = score >= 3 ? 'feedback-item good' : score >= 1 ? 'feedback-item warning' : 'feedback-item error';
+                        updateQualityScore();
+                    });
+                }
+            });
+
+            // Section 6
+            const validationInput = document.getElementById('validation');
+            if (validationInput) {
+                validationInput.addEventListener('input', function() {
+                    lfiData.validation = this.value;
+                    const metrics = (this.value.match(/metric|indicator|%|rate|audit|review/gi) || []).length;
+                    const feedbackEl = document.getElementById('validationFeedback');
+                    feedbackEl.querySelector('.feedback-value').textContent = `${metrics} detected`;
+                    feedbackEl.className = metrics >= 2 ? 'feedback-item good' : metrics >= 1 ? 'feedback-item warning' : 'feedback-item error';
+                    updateQualityScore();
+                });
+            }
+            const horizontalInput = document.getElementById('horizontal');
+             if (horizontalInput) {
+                horizontalInput.addEventListener('input', function() {
+                    lfiData.horizontal = this.value;
+                    const broad = /all|global|other|across|similar/i.test(this.value);
+                    const feedbackEl = document.getElementById('horizontalFeedback');
+                    feedbackEl.querySelector('.feedback-value').textContent = broad ? 'Broad Scope' : 'Limited Scope';
+                    feedbackEl.className = broad ? 'feedback-item good' : 'feedback-item warning';
+                    updateQualityScore();
+                });
+            }
+
+            // Section 7
+            const distributionInput = document.getElementById('distribution');
+             if (distributionInput) {
+                distributionInput.addEventListener('input', function() {
+                    lfiData.distribution = this.value;
+                    const channels = (this.value.match(/meeting|database|newsletter|training|portal|share/gi) || []).length;
+                    const feedbackEl = document.getElementById('distributionFeedback');
+                    feedbackEl.querySelector('.feedback-value').textContent = `${channels} channels`;
+                    feedbackEl.className = channels >= 2 ? 'feedback-item good' : channels >= 1 ? 'feedback-item warning' : 'feedback-item error';
+                    updateQualityScore();
+                });
+            }
+            const tagsInput = document.getElementById('tags');
+            if (tagsInput) {
+                 tagsInput.addEventListener('input', function() {
+                    lfiData.tags = this.value;
+                    const tags = this.value.split(',').filter(t => t.trim() !== '').length;
+                     const feedbackEl = document.getElementById('tagsFeedback');
+                    feedbackEl.querySelector('.feedback-value').textContent = `${tags} tags`;
+                    feedbackEl.className = tags >= 3 ? 'feedback-item good' : tags >= 1 ? 'feedback-item warning' : 'feedback-item error';
+                    updateQualityScore();
+                });
+            }
+            document.querySelectorAll('.audience-check').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    lfiData.audience = Array.from(document.querySelectorAll('.audience-check:checked')).map(cb => cb.value);
+                    updateQualityScore();
+                });
+            });
+        }
+        function switchSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === section) item.classList.add('active');
+            });
+            document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`section-${section}`).classList.add('active');
+            currentSection = section;
+            if (section === 'preview') generatePreview();
+            document.getElementById('tool').scrollIntoView({ behavior: 'smooth' });
+        }
+        function nextSection() {
+            const sections = ['template', 'problem', 'rootcause', 'lessons', 'actions', 'prevention', 'sharing', 'preview'];
+            const currentIndex = sections.indexOf(currentSection);
+            if (!validateCurrentSection(true)) return;
+            const currentNavItem = document.querySelector(`.nav-item[data-section="${currentSection}"]`);
+            if (currentNavItem) currentNavItem.classList.add('completed');
+            if (currentIndex < sections.length - 1) switchSection(sections[currentIndex + 1]);
+        }
+        function prevSection() {
+            const sections = ['template', 'problem', 'rootcause', 'lessons', 'actions', 'prevention', 'sharing', 'preview'];
+            const currentIndex = sections.indexOf(currentSection);
+            if (currentIndex > 0) switchSection(sections[currentIndex - 1]);
+        }
+        function validateCurrentSection(showAlert = true) {
+            let isValid = true;
+            switch(currentSection) {
+                case 'template':
+                    if (!selectedTemplate) {
+                        if(showAlert) { 
+                            document.getElementById('templateAlert').style.display = 'block';
+                            alert('⚠️ Please select a template to continue.');
+                        }
+                        isValid = false;
+                    } else { document.getElementById('templateAlert').style.display = 'none'; }
+                    break;
+                case 'problem':
+                    if (!lfiData.problemTitle || lfiData.problemTitle.length < 10) { if(showAlert) alert('⚠️ Please enter a descriptive problem title.'); isValid = false;
+                    } else if (!lfiData.problemStatement || lfiData.problemStatement.split(/\s+/).length < 20) { if(showAlert) alert('⚠️ Problem statement needs more detail (minimum 20 words).'); isValid = false; }
+                    break;
+                case 'rootcause':
+                    if (!lfiData.rootCause || lfiData.rootCause.split(/\s+/).length < 20) { if(showAlert) alert('⚠️ Root cause needs more detail (minimum 20 words).'); isValid = false; }
+                    break;
+                case 'lessons':
+                    if (!lfiData.lessons || !lfiData.lessons[0] || lfiData.lessons[0].split(/\s+/).length < 15) { if(showAlert) alert('⚠️ Please provide at least one detailed lesson (minimum 15 words).'); isValid = false; }
+                    break;
+                 case 'actions':
+                    if (!lfiData.immediateAction || !lfiData.correctiveAction || !lfiData.systemicAction) { if(showAlert) alert('⚠️ Please complete all three action sections (Immediate, Corrective, and Systemic).'); isValid = false; }
+                    break;
+                 case 'prevention':
+                    if (!lfiData.validation || !lfiData.horizontal) { if(showAlert) alert('⚠️ Please complete both validation and horizontal deployment sections.'); isValid = false; }
+                    break;
+            }
+            return isValid;
+        }
+        function updateQualityScore() {
+            let score = 0;
+            if (lfiData.template) score += 10;
+            if (lfiData.problemTitle && lfiData.problemTitle.length >= 20) score += 5;
+            const statementWords = lfiData.problemStatement ? lfiData.problemStatement.split(/\s+/).length : 0;
+            if (statementWords >= 150) score += 15; else if (statementWords >= 50) score += 7;
+            const rcWords = lfiData.rootCause ? lfiData.rootCause.split(/\s+/).length : 0;
+            if (rcWords >= 100) score += 20; else if (rcWords >= 50) score += 10;
+            if (lfiData.lessons && lfiData.lessons[0] && lfiData.lessons[0].split(/\s+/).length >= 25) score += 15; else if (lfiData.lessons && lfiData.lessons[0]) score += 7;
+            if (lfiData.lessons && lfiData.lessons[1] && lfiData.lessons[1].length > 10) score += 5;
+            if (lfiData.immediateAction && lfiData.correctiveAction && lfiData.systemicAction) score += 15;
+            else if (lfiData.correctiveAction) score += 7;
+            if (lfiData.validation && lfiData.horizontal) score += 10;
+            else if (lfiData.validation) score += 5;
+            if (lfiData.distribution && lfiData.audience.length > 0) score += 5;
+            const percentage = Math.min(100, score);
+            document.getElementById('qualityScore').textContent = `${percentage}%`;
+            const circle = document.getElementById('qualityScore').parentElement;
+            if (percentage >= 90) circle.style.background = 'linear-gradient(135deg, #43a047 0%, #66bb6a 100%)';
+            else if (percentage >= 60) circle.style.background = 'linear-gradient(135deg, #fb8c00 0%, #ffa726 100%)';
+            else circle.style.background = 'linear-gradient(135deg, #e53935 0%, #ef5350 100%)';
+        }
+        function generatePreview() {
+            const templateNames = { 'iso9001': 'ISO 9001:2015 CAPA Format', 'apqp': 'APQP/8D Methodology', 'sixsigma': 'Six Sigma DMAIC', 'a3': 'A3 Thinking (Toyota)' };
+            document.getElementById('previewTemplate').textContent = templateNames[lfiData.template] || 'Standard Format';
+            let html = `
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">1. PROBLEM IDENTIFICATION</h3><p><strong>Title:</strong> ${escapeHtml(lfiData.problemTitle) || 'N/A'}</p><p class="mt-4"><strong>Description:</strong></p><p class="leading-relaxed">${escapeHtml(lfiData.problemStatement) || 'N/A'}</p></div>
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">2. ROOT CAUSE ANALYSIS</h3><p><strong>Method Used:</strong> ${escapeHtml(lfiData.rcaMethod) || 'Not specified'}</p><p class="mt-4"><strong>Root Cause Identified:</strong></p><p class="leading-relaxed">${escapeHtml(lfiData.rootCause) || 'N/A'}</p></div>
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">3. LESSONS LEARNED</h3>${(lfiData.lessons && lfiData.lessons.length > 0 && lfiData.lessons.some(l=>l)) ? lfiData.lessons.map((lesson, i) => lesson ? `<div class="mb-4"><p><strong>Lesson ${i + 1}:</strong></p><p class="leading-relaxed bg-gray-100 p-4 rounded-md mt-2">${escapeHtml(lesson)}</p></div>` : '').join('') : '<p>No lessons entered.</p>'}</div>
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">4. IMPLEMENTATION ACTIONS</h3><p><strong>Immediate Actions:</strong></p><p class="leading-relaxed mb-4">${escapeHtml(lfiData.immediateAction) || 'N/A'}</p><p><strong>Corrective Actions:</strong></p><p class="leading-relaxed mb-4">${escapeHtml(lfiData.correctiveAction) || 'N/A'}</p><p><strong>Systemic Improvements:</strong></p><p class="leading-relaxed">${escapeHtml(lfiData.systemicAction) || 'N/A'}</p></div>
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">5. PREVENTION & VALIDATION</h3><p><strong>Effectiveness Validation:</strong></p><p class="leading-relaxed mb-4">${escapeHtml(lfiData.validation) || 'N/A'}</p><p><strong>Horizontal Deployment:</strong></p><p class="leading-relaxed">${escapeHtml(lfiData.horizontal) || 'N/A'}</p></div>
+                <div class="mb-8"><h3 class="font-bold border-b-2 pb-2 mb-4" style="color:var(--primary)">6. KNOWLEDGE SHARING</h3><p><strong>Distribution Plan:</strong></p><p class="leading-relaxed">${escapeHtml(lfiData.distribution) || 'N/A'}</p>${lfiData.tags ? `<p class="mt-4"><strong>Keywords:</strong> ${escapeHtml(lfiData.tags)}</p>` : ''}</div>
+            `;
+            document.getElementById('previewContent').innerHTML = html;
+            const requiredFields = ['template', 'problemTitle', 'problemStatement', 'rootCause', 'immediateAction', 'correctiveAction', 'systemicAction', 'validation', 'horizontal'];
+            const completed = requiredFields.filter(field => lfiData[field] && lfiData[field].length > 0).length;
+            const completionPercentage = Math.round((completed / requiredFields.length) * 100);
+            document.getElementById('completionBar').style.width = completionPercentage + '%';
+            const missing = requiredFields.filter(field => !lfiData[field] || lfiData[field].length === 0);
+            if (missing.length === 0 && lfiData.lessons.some(l=>l)) {
+                document.getElementById('completionAlert').style.display = 'block';
+                document.getElementById('missingFields').innerHTML = '<p class="text-green-700">✓ All required sections completed!</p>';
+            } else {
+                 if (!lfiData.lessons.some(l=>l)) missing.push('lessons');
+                const fieldNames = { 'template': 'Template Selection', 'problemTitle': 'Problem Title', 'problemStatement': 'Problem Statement', 'rootCause': 'Root Cause', 'lessons': 'At least one Lesson Learned', 'immediateAction': 'Immediate Action', 'correctiveAction': 'Corrective Action', 'systemicAction': 'Systemic Improvements', 'validation': 'Effectiveness Validation', 'horizontal': 'Horizontal Deployment' };
+                document.getElementById('missingFields').innerHTML = `<p><strong>Missing required sections:</strong></p><ul class="list-disc list-inside mt-2">${missing.map(field => `<li>${fieldNames[field]}</li>`).join('')}</ul>`;
+                document.getElementById('completionAlert').style.display = 'none';
+            }
+        }
+        function exportPDF() { window.print(); }
+        function exportWord() {
+            const content = document.getElementById('previewContainer').innerHTML;
+            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>LFI Document</title><style>body{font-family:Arial,sans-serif;} h3{color:#1a237e; border-bottom:1px solid #ccc; padding-bottom:5px;} strong{font-weight:bold;}</style></head><body>${content}</body></html>`;
+            const blob = new Blob(['\ufeff', header], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const fileName = `LFI_${lfiData.problemTitle.substring(0, 20).replace(/[^a-z0.9]/gi, '_') || 'document'}.doc`;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        function copyLFI() {
+            const text = document.getElementById('previewContent').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ LFI content copied to clipboard!');
+            }, () => {
+                alert('❌ Copy failed. Please try again or copy manually.');
+            });
+        }
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            let html = text.replace(/[&<>"']/g, m => map[m]);
+            return html.replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>

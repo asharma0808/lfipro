@@ -1,0 +1,6 @@
+Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+Point crawlers to the sitemap
+Sitemap: https://www.google.com/search?q=https://your-domain.com/sitemap.xml

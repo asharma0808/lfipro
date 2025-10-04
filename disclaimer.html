@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclaimer - LFI Writing Guide Pro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        :root {
+            --primary: #1a237e;
+            --secondary: #00897b;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-4 lg:px-6 py-4">
+            <div class="flex flex-wrap justify-between items-center">
+                <a href="./index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent" style="background-image: var(--gradient-1);">🎯</span>
+                    <span class="text-xl font-extrabold text-gray-800 self-center whitespace-nowrap">LFI Writing Guide Pro</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="./index.html#tool" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">The Tool</a>
+                    <a href="./index.html#features" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Features</a>
+                    <a href="./index.html#faq" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">FAQ</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">About Us</a>
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Contact</a>
+                </div>
+                <a href="./index.html#tool" class="hidden lg:inline-block px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-transform" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4 space-y-2">
+                <a href="./index.html#tool" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">The Tool</a>
+                <a href="./index.html#features" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Features</a>
+                <a href="./index.html#faq" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">FAQ</a>
+                <a href="#" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">About Us</a>
+                <a href="#" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Contact</a>
+                <a href="./index.html#tool" class="block mt-2 w-full text-center px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-16 lg:py-24">
+        <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 text-center mb-2">Disclaimer</h1>
+            <p class="text-center text-gray-500 mb-10">Last updated: October 4, 2025</p>
+            
+            <div class="space-y-8 text-gray-600 leading-relaxed prose prose-indigo">
+                <h2 class="text-2xl font-bold text-gray-800">General Disclaimer</h2>
+                <p>The information provided by LFI Writing Guide Pro ("we," "us," or "our") on this website is for general informational purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.</p>
+                <p>UNDER NO CIRCUMSTANCE SHALL WE HAVE ANY LIABILITY TO YOU FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF THE SITE OR RELIANCE ON ANY INFORMATION PROVIDED ON THE SITE. YOUR USE OF THE SITE AND YOUR RELIANCE ON ANY INFORMATION ON THE SITE IS SOLELY AT YOUR OWN RISK.</p>
+
+                <h2 class="text-2xl font-bold text-gray-800">Professional Disclaimer</h2>
+                <p>The Site cannot and does not contain professional advice. The information is provided for general informational and educational purposes only and is not a substitute for professional advice. Accordingly, before taking any actions based upon such information, we encourage you to consult with the appropriate professionals. We do not provide any kind of professional advice. The use or reliance of any information contained on this site is solely at your own risk.</p>
+                
+                <h2 class="text-2xl font-bold text-gray-800">External Links Disclaimer</h2>
+                <p>The Site may contain (or you may be sent through the Site) links to other websites or content belonging to or originating from third parties or links to websites and features in banners or other advertising. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness by us. WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR THE ACCURACY OR RELIABILITY OF ANY INFORMATION OFFERED BY THIRD-PARTY WEBSITES LINKED THROUGH THE SITE OR ANY WEBSITE OR FEATURE LINKED IN ANY BANNER OR OTHER ADVERTISING.</p>
+
+                <h2 class="text-2xl font-bold text-gray-800">Affiliates Disclaimer</h2>
+                <p>The Site may contain links to affiliate websites, and we may receive an affiliate commission for any purchases made by you on the affiliate website using such links. This is a common practice for sites that use services like Google AdSense.</p>
+                
+                <h2 class="text-2xl font-bold text-gray-800">Errors and Omissions Disclaimer</h2>
+                <p>While we have made every attempt to ensure that the information contained in this site has been obtained from reliable sources, LFI Writing Guide Pro is not responsible for any errors or omissions or for the results obtained from the use of this information. All information in this site is provided "as is", with no guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">LFI Writing Guide Pro</h3>
+                    <p class="text-gray-400">Your assistant for creating world-class, actionable learning documents from root cause analysis.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./index.html#tool" class="text-gray-400 hover:text-white">The Tool</a></li>
+                        <li><a href="./index.html#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="./index.html#faq" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="./terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="./disclaimer.html" class="text-white hover:underline">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 LFI Writing Guide Pro. All Rights Reserved. | <span class="text-blue-400">Created by Anil Sharma</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- MOBILE MENU SCRIPT ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>

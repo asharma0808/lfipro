@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LFI Writing Guide Pro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        :root {
+            --primary: #1a237e;
+            --secondary: #00897b;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+         @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-4 lg:px-6 py-4">
+            <div class="flex flex-wrap justify-between items-center">
+                <a href="./index.html" class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent" style="background-image: var(--gradient-1);">🎯</span>
+                    <span class="text-xl font-extrabold text-gray-800 self-center whitespace-nowrap">LFI Writing Guide Pro</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="./index.html#tool" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">The Tool</a>
+                    <a href="./index.html#features" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Features</a>
+                    <a href="./index.html#faq" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">FAQ</a>
+                    <a href="./about.html" class="text-indigo-600 font-semibold">About Us</a>
+                    <a href="./contact.html" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Contact</a>
+                </div>
+                <a href="./index.html#tool" class="hidden lg:inline-block px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-transform" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden mt-4 space-y-2">
+                <a href="./index.html#tool" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">The Tool</a>
+                <a href="./index.html#features" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Features</a>
+                <a href="./index.html#faq" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">FAQ</a>
+                <a href="./about.html" class="block py-2 px-3 text-indigo-600 bg-indigo-50 rounded-md">About Us</a>
+                <a href="./contact.html" class="block py-2 px-3 text-gray-600 hover:bg-indigo-50 rounded-md">Contact</a>
+                <a href="./index.html#tool" class="block mt-2 w-full text-center px-6 py-2.5 text-white font-semibold rounded-lg shadow-lg" style="background-image: var(--gradient-1);">
+                    Get Started
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-16 lg:py-24">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 animate-fade-in-up">My Mission: To Institutionalize Learning and Prevent Failure</h1>
+                <p class="text-lg text-gray-600 animate-fade-in-up" style="animation-delay: 100ms;">I believe that every failure is a learning opportunity. When captured and shared effectively, the lessons from one incident can prevent thousands more. This principle is the heart of the LFI Writing Guide Pro.</p>
+            </div>
+
+            <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg space-y-12">
+                <div>
+                    <h2 class="text-2xl font-bold text-indigo-800 mb-4 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        The Problem I Addressed
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">From my experience in various industrial environments, I saw that countless hours are spent on root cause analysis. Yet, too often, the invaluable lessons from these investigations are lost. Reports can be poorly written, lack actionable steps, and are filed away in a digital cabinet, never to be seen again. The result? The same preventable mistakes happen over and over, costing time, money, and in some cases, endangering lives. This cycle of repeated failure is a systemic problem I became passionate about solving.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold text-indigo-800 mb-4 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="m9 12 2 2 4-4"/><path d="M21.3 12a9 9 0 1 1-9-9c2.5 0 4.8.9 6.5 2.5l-2.9 2.9"/></svg>
+                        My Solution
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">I created the LFI Writing Guide Pro to help break this cycle. It's more than just a template; it's an intelligent framework designed to guide engineers, quality managers, and safety professionals through the process of creating world-class Lessons For Implementation. By standardizing the format, providing real-time quality feedback, and ensuring compliance with global standards like ISO 9001 and APQP, this tool aims to transform a simple report into a powerful instrument for global knowledge transfer and continuous improvement.</p>
+                </div>
+                
+                 <div>
+                    <h2 class="text-2xl font-bold text-indigo-800 mb-4 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                        A Word From the Creator
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">This tool was a personal project envisioned and built by me, <strong>Anil Sharma</strong>. As a passionate advocate for quality management and process improvement, I saw a recurring gap between identifying a problem's root cause and effectively preventing its recurrence. The LFI Writing Guide Pro is my solution—a tool designed to empower every organization to build a robust institutional memory and foster a true culture of learning and safety.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">LFI Writing Guide Pro</h3>
+                    <p class="text-gray-400">Your assistant for creating world-class, actionable learning documents from root cause analysis.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./index.html#tool" class="text-gray-400 hover:text-white">The Tool</a></li>
+                        <li><a href="./index.html#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="./index.html#faq" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./about.html" class="text-white hover:underline">About Us</a></li>
+                        <li><a href="./contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h3 class="font-bold text-lg mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="./terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="./disclaimer.html" class="text-gray-400 hover:text-white">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 LFI Writing Guide Pro. All Rights Reserved. | <span class="text-blue-400">Created by Anil Sharma</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- MOBILE MENU SCRIPT ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
